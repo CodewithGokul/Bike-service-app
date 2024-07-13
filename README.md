@@ -270,6 +270,7 @@ View all bookings made.
   "emailId": "string",
   "contactNo": "string"
 }
+```
 
 # Project Name
 
