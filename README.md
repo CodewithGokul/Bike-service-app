@@ -271,6 +271,8 @@ View all bookings made.
   "contactNo": "string"
 }
 
+# Project Name
+
 ## Deployment
 
 ### Prerequisites
@@ -289,13 +291,8 @@ View all bookings made.
    ng serve
    ng build --prod
 
-##Environmental Variable
-# Angular (Frontend)
-API_URL=http://localhost:8080/api
-
-# Spring Boot (Backend)
-SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/your_database_name?serverTimezone=UTC
-SPRING_DATASOURCE_USERNAME=root
-SPRING_DATASOURCE_PASSWORD=your_password
-SERVER_PORT=8080
-
+##Build and Run Springboot App
+spring.datasource.url=jdbc:mysql://localhost:3306/your_database_name?serverTimezone=UTC
+spring.datasource.username=root
+spring.datasource.password=your_password
+server.port=8080
