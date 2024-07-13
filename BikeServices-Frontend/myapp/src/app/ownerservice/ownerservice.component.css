@@ -1,0 +1,172 @@
+.ownerservice {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  background-color: black;
+  height: 100px;
+}
+
+.booking {
+  color: white;
+  padding: 20px;
+  margin-top: 20px;
+  margin-right: 20px;
+  border: 1px solid white;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+.booking:hover {
+  color: black;
+  background-color: greenyellow;
+}
+
+.display {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding: 20px;
+  flex: 1;
+}
+
+@media (max-width: 1024px) {
+  .display {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .display {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .display {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+    background-color: rgba(255, 255, 255, 0.72);
+  color: black;
+  border: 1px solid white;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: fit-content;
+  border-radius: 10px;
+}
+
+.cards {
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Ensure cards take full height of parent */
+}
+
+.btns {
+  display: flex;
+  justify-content: space-between;
+  margin-top: auto; /* Align buttons to the bottom of the card */
+}
+
+.btn {
+  border: 1px solid white;
+  padding: 7px;
+  border-radius: 5px;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: greenyellow;
+  color: black;
+}
+
+.btn.delete {
+  background-color: black; /* Match edit button background */
+  color: white; /* Match edit button text color */
+}
+
+.btn.delete:hover {
+  background-color: greenyellow; /* Match edit button hover background */
+  color: black; /* Match edit button hover text color */
+}
+
+.attr {
+  padding-bottom: 20px;
+}
+
+.plus {
+  background-color: black;
+  color: greenyellow;
+  padding: 10px;
+  width: fit-content;
+  height: 14px;
+  margin-top: 100px;
+  text-decoration: none;
+  border: 1px solid white;
+}
+.plus:hover{
+  background-color: greenyellow;
+  color: black;
+}
+/* Modal styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal-card {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  max-width: 400px;
+  width: 100%;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* Keyframe animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

@@ -1,0 +1,39 @@
+/* edit-service.component.css */
+.edit-service-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  width: 300px;
+  border: 2px solid black;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  background-color: rgb(255, 255, 255);
+}
+.edit{
+  padding: 10px;
+  border: black 4px solid;
+  box-shadow: dimgray 0px 0px 10px 3px inset;
+}
+.edit-service-modal h2 {
+  margin-top: 0;
+
+}
+
+.edit-service-modal form {
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-service-modal label {
+  margin-top: 10px;
+}
+
+.edit-service-modal input {
+  margin-bottom: 10px;
+}
+
+.edit-service-modal button {
+  margin-top: 10px;
+}

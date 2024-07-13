@@ -1,0 +1,69 @@
+<div class="container">
+  <div class="navbar">
+    <ul>
+      <a [routerLink]="['/','booking-status']">Booking Status</a>
+    </ul>
+    <ul>
+      <a [routerLink]="['/','allservices']">Services</a>
+    </ul>
+    <ul>
+      <a class="logout" [routerLink]="['/']">Logout</a>
+    </ul>
+  </div>
+
+  <div class="card-section">
+    <div class="card" *ngFor="let service of services">
+      <div>
+        <label>Service Name: {{service.serviceName}}</label>
+      </div>
+      <div>
+        <label>Service Description: {{service.description}}</label>
+      </div>
+      <div>
+        <label>Service Charge: ${{service.charges}}</label>
+      </div>
+      <div>
+        <label>Location: {{service.location}}</label>
+      </div>
+      <div class="btn-book-div">
+        <button class="btn-book" (click)="setBook(service.serviceId)">Book</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for booking -->
+<div *ngIf="book" class="modal-overlay">
+  <div class="modal-content">
+    <span class="close" (click)="closeBook()">&times;</span>
+    <h2>Book Service</h2>
+    <form (submit)="BookService()">
+      <div>
+        <label>Brand:</label>
+        <input type="text" name="brand" [(ngModel)]="CustomerBooking.brand" required />
+      </div>
+      <div>
+        <label>Model:</label>
+        <input type="text" name="model" [(ngModel)]="CustomerBooking.model" required />
+      </div>
+      <div>
+        <label>Year:</label>
+        <input type="number" name="year" [(ngModel)]="CustomerBooking.year" required />
+      </div>
+      <div>
+        <label>Vehicle Number:</label>
+        <input type="text" name="vehiclenumber" [(ngModel)]="CustomerBooking.vehicleNumber" required />
+      </div>
+      <div>
+        <label>Date:</label>
+        <input type="date" name="date" [(ngModel)]="CustomerBooking.date" required />
+      </div>
+      <div>
+        <button type="submit" (click)="enableBooking()" class="btn-book">Submit</button>
+      </div>
+      <div *ngIf="isbooked">
+        Booking...Please wait..
+      </div>
+    </form>
+  </div>
+</div>

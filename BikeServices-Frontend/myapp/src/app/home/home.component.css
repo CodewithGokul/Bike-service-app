@@ -1,0 +1,103 @@
+body {
+  margin: 0;
+  font-family: 'Roboto', Arial, sans-serif; /* Updated font family */
+  color: black;
+  background-color: limegreen;
+  overflow: hidden;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  height: 60px;
+  background-color: black;
+  align-items: center;
+  color: white;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo img {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.logo span {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.login {
+  margin-right: 100px;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+a:hover {
+  background-color: rgba(173, 255, 47, 0.86);
+  color: black;
+}
+
+.frontcard {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  height: calc(100vh - 60px);
+  padding: 20px;
+  animation: fadeIn 1s ease-in;
+}
+
+.content {
+  max-width: 500px;
+  text-align: left;
+}
+
+button {
+  width: 150px;
+  height: 50px;
+  border: none;
+  background-color: black;
+  color: white;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+button:hover {
+  background-color: rgba(173, 255, 47, 0.86);
+  color: black;
+}
+
+.image-container img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  animation: fadeIn 2s ease-in;
+}
+
+p {
+  font-size: 18px;
+  line-height: 1.6;
+  margin: 20px 0;
+  text-align: justify;
+  color: black; /* Text color changed to black */
+}

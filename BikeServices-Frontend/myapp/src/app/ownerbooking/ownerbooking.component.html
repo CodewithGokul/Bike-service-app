@@ -1,0 +1,57 @@
+<div class="container">
+  <h2>Booking Responses</h2>
+  <div class="filter-section">
+
+    <label class="filter" for="statusFilter">Filter by Status: </label>
+    <select id="statusFilter" [(ngModel)]="selectedStatus" (change)="filterBookings()">
+      <option value="">All</option>
+      <option value="PENDING">PENDING</option>
+      <option value="ACCEPTED">ACCEPTED</option>
+      <option value="REJECTED">REJECTED</option>
+      <option value="NONDELIVERY">NONDELIVERY</option>
+      <option value="DELIVERED">DELIVERED</option>
+    </select>
+  </div>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>Book ID</th>
+      <th>Brand</th>
+      <th>Model</th>
+      <th>Vehicle Number</th>
+      <th>Service Name</th>
+      <th>Status</th>
+      <th>Booked Date</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let booking of filteredBookings">
+      <td>{{ booking.bookId }}</td>
+      <td>{{ booking.brand }}</td>
+      <td>{{ booking.model }}</td>
+      <td>{{ booking.vehicleNumber }}</td>
+      <td>{{ booking.serviceName }}</td>
+      <td>{{ booking.status }}</td>
+      <td>{{ booking.bookedDate | date: 'short' }}</td>
+      <td>
+        <button (click)="viewChange(booking)" class="btn btn-primary">Change Status</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="ischangeEnabled" class="status-change">
+    <select [(ngModel)]="status">
+      <option value="PENDING">PENDING</option>
+      <option value="ACCEPTED">ACCEPTED</option>
+      <option value="REJECTED">REJECTED</option>
+      <option value="NONDELIVERY">NONDELIVERY</option>
+      <option value="DELIVERED">DELIVERED</option>
+    </select>
+
+    <button (click)="changeStatus()" class="btn btn-success">Save Change</button>
+    <button (click)="ischangeEnabled = false" class="btn btn-success">Cancel</button>
+  <span>Status Changing Pls Wait...</span>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="left-side">
+    <img src="/loginimage.png" alt="Login Image" height="550px" width="550px">
+    <p>"There's a unique thrill in riding a motorcycle that can't be matched by anything else. It's the exhilaration of leaning into a curve, the rush of wind against your face, and the sense of adventure that comes with every ride. Biking is not just about reaching a destination; it's about the journey itself, and the stories that are created along the way."</p>
+  </div>
+
+  <div class="right-side">
+    <form>
+      <h2>LOGIN</h2>
+
+      <div class="mail">
+        <input [(ngModel)]="authRequest.email" (click)="setInvalid = false" name="email" type="email" placeholder="Email"/>
+      </div>
+
+      <div class="password">
+        <input [(ngModel)]="authRequest.password" (click)="setInvalid = false" name="password" type="password" placeholder="Password"/>
+      </div>
+
+      <div class="btn">
+        <button (click)="login()" type="submit">Submit</button>
+      </div>
+
+      <div class="btn" *ngIf="setInvalid">
+        <div>Unauthorized Credentials</div>
+      </div>
+
+      <div class="new">
+        <a [routerLink]="['/', 'register']">New User?</a>
+      </div>
+    </form>
+  </div>
+</div>

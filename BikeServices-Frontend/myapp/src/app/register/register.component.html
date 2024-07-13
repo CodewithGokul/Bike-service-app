@@ -1,0 +1,31 @@
+<div class="container">
+
+  <form>
+    <h2>REGISTER</h2>
+
+    <div class="name">
+      <input [(ngModel)]="authRequest.name"  name="name" type="text" placeholder="Name" required/>
+    </div>
+
+    <div class="mail">
+      <input [(ngModel)]="authRequest.email" name="email" type="email" placeholder="gmail" required/>
+    </div>
+
+    <div class="password">
+      <input [(ngModel)]="authRequest.password" name="password" type="text" placeholder="password" required/>
+    </div>
+
+    <div class="number">
+      <input [(ngModel)]="authRequest.phoneNumber" name="number" type="text" placeholder="Phone number" required/>
+    </div>
+
+    <div  class="address">
+      <input [(ngModel)]="authRequest.address" name="address" type="text" placeholder="Residential address"/>
+    </div>
+
+    <div class="btn">
+      <button (click)="signup()" type="submit">Submit</button>
+    </div>
+
+  </form>
+</div>

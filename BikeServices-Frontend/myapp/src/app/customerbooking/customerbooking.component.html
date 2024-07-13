@@ -1,0 +1,31 @@
+<div class="customer-booking-container">
+  <h2>Customer Booking Status</h2>
+
+  <div class="filter-container">
+    <select [(ngModel)]="filterStatus" (change)="applyFilter()">
+      <option value="">All</option>
+      <option value="PENDING">PENDING</option>
+      <option value="ACCEPTED">ACCEPTED</option>
+      <option value="REJECTED">REJECTED</option>
+      <option value="NONDELIVERY">NONDELIVERY</option>
+      <option value="DELIVERED">DELIVERED</option>
+    </select>
+  </div>
+
+  <div class="card-container">
+    <div class="card" *ngFor="let booking of filteredBookings">
+      <div class="card-content">
+        <div class="attr">Book ID: {{ booking.bookId }}</div>
+        <div class="attr">Brand: {{ booking.brand }}</div>
+        <div class="attr">Model: {{ booking.model }}</div>
+        <div class="attr">Vehicle Number: {{ booking.vehicleNumber }}</div>
+        <div class="attr">Service Name: {{ booking.serviceName }}</div>
+        <div class="attr">Status: {{ booking.status }}</div>
+        <div class="attr">Booked Date: {{ booking.bookedDate | date: 'short' }}</div>
+        <div class="cancel" *ngIf="booking.status === 'PENDING'">
+        <button (click)="deleteBooking(booking.bookId)">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

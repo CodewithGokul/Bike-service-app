@@ -1,0 +1,27 @@
+<div class="ownerservice">
+  <div class="nav">
+    <a class="booking" [routerLink]="['/','ownerbooking']">NEW BOOKINGS</a>
+  </div>
+
+  <div class="display">
+    <div class="card" *ngFor="let service of bikeService">
+      <div class="cards">
+        <div class="attr">Service Name: {{ service.serviceName }}</div>
+        <div class="attr">Service Description: {{ service.description }}</div>
+        <div class="attr">Price: {{ service.charges }}</div>
+        <div class="attr">Location: {{ service.location }}</div>
+        <div class="btns">
+          <button class="btn" (click)="editservice(service)">Edit</button>
+          <button class="btn" (click)="delete(service.id)">Delete</button>
+        </div>
+      </div>
+    </div>
+    <a class="plus" [routerLink]="['/addservice']">+</a>
+  </div>
+</div>
+
+<div *ngIf="enableEdit">
+<app-edit-service [service]="updateService"  (closepop)="enableEdit = false" ></app-edit-service>
+</div>
+
+

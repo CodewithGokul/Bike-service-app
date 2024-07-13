@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "ng-openapi-gen": "^0.51.0"
+  }
+}

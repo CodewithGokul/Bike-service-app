@@ -1,0 +1,19 @@
+<div class="container">
+  <div class="card">
+    <div>
+      <input [(ngModel)]="setService.servicename" name="servicename" type="text" placeholder="Service Name" required/>
+    </div>
+    <div>
+      <input [(ngModel)]="setService.description" name="description" type="text" placeholder="Description" required/>
+    </div>
+    <div>
+      <input [(ngModel)]="setService.charges" name="charges" type="number" placeholder="Charges" required/>
+    </div>
+    <div>
+      <input [(ngModel)]="setService.location" name="location" type="text" placeholder="Location" required/>
+    </div>
+    <div>
+      <button (click)="addservice()">Submit</button>
+    </div>
+  </div>
+</div>

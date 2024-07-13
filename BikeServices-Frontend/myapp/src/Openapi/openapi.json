@@ -1,0 +1,812 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Bike Service API",
+    "description": "OpenApi Documentation For Bike Service Application.<br>Important Note: First, signup on the AuthController section, copy the token, and provide it in the Authorize tab on the right. Note that if you have a Customer Token, then you have authorization for customer operations only, and vice versa.",
+    "termsOfService": "Terms of services",
+    "contact": {
+      "name": "Gokul Vijay N",
+      "email": "gokulvijayuph@gmail.com"
+    },
+    "license": {
+      "name": "License name",
+      "url": "https://"
+    },
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Local ENV"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/api/owners/add-services": {
+      "post": {
+        "tags": ["owners-controller"],
+        "summary": "Add Services",
+        "description": "This API allows adding services to the store.",
+        "operationId": "addServices",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Servicesdto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Unauthorized/InvalidToken/ExpiredToken",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/customers/services/{serviceId}": {
+      "post": {
+        "tags": ["customer-controller"],
+        "summary": "Choose Service and Book",
+        "description": "This API allows customers to choose a service and book it. A notification email is sent to the owner.",
+        "operationId": "addBooking",
+        "parameters": [
+          {
+            "name": "serviceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Bookingdto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success/Booked/Mail-Sent",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Bookings"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Unauthorized/InvalidToken/ExpiredToken",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Bookings"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/owner/signup": {
+      "post": {
+        "tags": ["auth-controller"],
+        "operationId": "setOwnerSignup",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Ownersignupdto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/owner/login": {
+      "post": {
+        "tags": ["auth-controller"],
+        "operationId": "setOwnerlogin",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Ownerlogindto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/customer/signup": {
+      "post": {
+        "tags": ["auth-controller"],
+        "operationId": "setCustomerSignup",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Customersignupdto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Customers"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/customer/login": {
+      "post": {
+        "tags": ["auth-controller"],
+        "operationId": "setCustomerlogin",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Customerlogindto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/owners/edit-status/{bookId}": {
+      "patch": {
+        "tags": ["owners-controller"],
+        "summary": "Edit The Status",
+        "description": "Owners can edit the status of a booking. The statuses are: ACCEPTED, REJECTED, NONDELIVERY, DELIVERY.<br>NONDELIVERY: A reminder email is sent to the user to take the bike.<br>ACCEPTED: Indicates to the customer that the order is accepted, and a reminder email is sent to give the bike.",
+        "operationId": "updateBookingStatus",
+        "parameters": [
+          {
+            "name": "bookId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetStatus"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Unauthorized/InvalidToken/ExpiredToken",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/owners/edit-service/{serviceId}": {
+      "patch": {
+        "tags": ["owners-controller"],
+        "operationId": "editServices",
+        "parameters": [
+          {
+            "name": "serviceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BikeServices"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/owners/your-services": {
+      "get": {
+        "tags": ["owners-controller"],
+        "summary": "Owner's Services",
+        "description": "This API shows all services by the owner.",
+        "operationId": "getServices",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BikeServices"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Unauthorized/InvalidToken/ExpiredToken",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BikeServices"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/owners/bookings": {
+      "get": {
+        "tags": ["owners-controller"],
+        "summary": "Bookings",
+        "description": "This API shows all bookings to the owner.",
+        "operationId": "getAllBookings",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BookingResponse"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Unauthorized/InvalidToken/ExpiredToken",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BookingResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/customers/all-services": {
+      "get": {
+        "tags": ["customer-controller"],
+        "summary": "All Services",
+        "description": "This API allows customers to see all services provided by the owner.",
+        "operationId": "getAllServices",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BikeServices"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/customers/status/{status}": {
+      "get": {
+        "tags": ["customer-controller"],
+        "summary": "Get Booking by Status",
+        "description": "This API allows customers to see their booking status by providing the status value. Status values: ACCEPTED, REJECTED, NONDELIVERY, DELIVERY.",
+        "operationId": "getStatusBooking",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BookingResponse"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Unauthorized/InvalidToken/ExpiredToken",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BookingResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/customers/bookings": {
+      "get": {
+        "tags": ["customer-controller"],
+        "summary": "Get All Bookings",
+        "description": "This API shows all bookings to the customer.",
+        "operationId": "getBookings",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BookingResponse"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Unauthorized/InvalidToken/ExpiredToken",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BookingResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/owners/customers": {
+      "get": {
+        "tags": ["owners-controller"],
+        "summary": "Customer Details",
+        "description": "This API provides the owner with the customer details.",
+        "operationId": "getCustomerDetails",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Customer"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Unauthorized/InvalidToken/ExpiredToken",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Customer"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/owners/customers/email/{email}": {
+      "get": {
+        "tags": ["owners-controller"],
+        "summary": "Customer Details by Email",
+        "description": "This API provides the owner with customer details by searching with email.",
+        "operationId": "getCustomerByEmail",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Customer"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Unauthorized/InvalidToken/ExpiredToken",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Customer"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Servicesdto": {
+        "type": "object",
+        "properties": {
+          "serviceId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "serviceName": {
+            "type": "string"
+          },
+          "serviceCost": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "example": {
+          "serviceId": 5,
+          "serviceName": "Tire Change",
+          "serviceCost": 2000
+        }
+      },
+      "Bookings": {
+        "type": "object",
+        "properties": {
+          "brand": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "year": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "vehicleNumber": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string",
+            "format": "date"
+          }
+        },
+        "example": {
+          "brand": "Kawasaki",
+          "model": "Z900",
+          "year": 2021,
+          "vehicleNumber": "TN01AZ1000",
+          "date": "2023-07-12"
+        }
+      },
+      "Bookingdto": {
+        "type": "object",
+        "properties": {
+          "brand": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "year": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "vehicleNumber": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string",
+            "format": "date"
+          }
+        },
+        "example": {
+          "brand": "Kawasaki",
+          "model": "Z900",
+          "year": 2021,
+          "vehicleNumber": "TN01AZ1000",
+          "date": "2023-07-12"
+        }
+      },
+      "Ownersignupdto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "storeName": {
+            "type": "string"
+          },
+          "storeLocation": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "email": "owner@example.com",
+          "password": "password123",
+          "storeName": "Gokul's Bike Service",
+          "storeLocation": "Chennai, India"
+        }
+      },
+      "Ownerlogindto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "email": "owner@example.com",
+          "password": "password123"
+        }
+      },
+      "Customersignupdto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "email": "customer@example.com",
+          "password": "password123",
+          "name": "John Doe",
+          "phoneNumber": "9876543210"
+        }
+      },
+      "Customerlogindto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "email": "customer@example.com",
+          "password": "password123"
+        }
+      },
+      "BikeServices": {
+        "type": "object",
+        "properties": {
+          "serviceId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "serviceName": {
+            "type": "string"
+          },
+          "serviceCost": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "example": {
+          "serviceId": 5,
+          "serviceName": "Tire Change",
+          "serviceCost": 2000
+        }
+      },
+      "BookingResponse": {
+        "type": "object",
+        "properties": {
+          "bookId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "brand": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "vehicleNumber": {
+            "type": "string"
+          },
+          "serviceName": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "bookedDate": {
+            "type": "string",
+            "format": "date"
+          }
+        },
+        "example": {
+          "bookId": 1,
+          "brand": "Kawasaki",
+          "model": "Z900",
+          "vehicleNumber": "TN01AZ1000",
+          "serviceName": "Tire Change",
+          "status": "DELIVERY",
+          "bookedDate": "2023-07-12"
+        }
+      },
+      "Customer": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "email": "customer@example.com",
+          "name": "John Doe",
+          "phoneNumber": "9876543210"
+        }
+      }
+    }
+  }
+}
