@@ -37,6 +37,17 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
+                    auth.requestMatchers("/v2/api-docs",
+                                            "/v3/api-docs",
+                                            "/v3/api-docs/**",
+                                            "/swagger-resources",
+                                            "/swagger-resources/**",
+                                            "configuration/ui",
+                                            "/configuration/security",
+                                            "/swagger-ui/**",
+                                            "webjars/**",
+                                            "swagger-ui.html"
+                            ).permitAll();
                     auth.requestMatchers("/api/auth/**").permitAll();
                     auth.requestMatchers("/api/customers/**").hasAnyAuthority(Roles.USERS.name());
                     auth.requestMatchers("/api/owners/**").hasAnyAuthority(Roles.OWNERS.name());
