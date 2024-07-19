@@ -25,6 +25,7 @@ import { CustomerbookingComponent } from './customerbooking/customerbooking.comp
 import { EditServiceComponent } from './edit-service/edit-service.component';
 import { CustomerNavbarComponent } from './customer-navbar/customer-navbar.component';
 import { OwnerNavbarComponent } from './owner-navbar/owner-navbar.component';
+import { StoreComponent } from './store/store.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,6 +42,7 @@ import { OwnerNavbarComponent } from './owner-navbar/owner-navbar.component';
     EditServiceComponent,
     CustomerNavbarComponent,
     OwnerNavbarComponent,
+    StoreComponent,
   ],
   imports: [
     BrowserModule,
