@@ -26,6 +26,7 @@ isCancel:boolean = false;
     this.customerbookingService.getBookingstatus().subscribe({
       next: (res) => {
         this.bookingStatus = res as BookingResponse[];
+        console.log(res)
         this.applyFilter();
       }
     });

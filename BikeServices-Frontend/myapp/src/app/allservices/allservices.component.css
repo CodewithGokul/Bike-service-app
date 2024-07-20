@@ -170,3 +170,9 @@ form .btn-book:hover {
   color: black;
   text-decoration: none;
 }
+
+#logout:hover{
+
+  color: white;
+  background-color: red;
+}

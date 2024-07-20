@@ -11,6 +11,9 @@ import {Bookingdto} from "../services/models/bookingdto";
   styleUrl: './allservices.component.css'
 })
 export class AllservicesComponent implements OnInit {
+logout() {
+this.authRequest.logout();
+}
 
   book:boolean = false;
   services:CustomerServiceResponse[]= []

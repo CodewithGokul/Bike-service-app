@@ -170,3 +170,16 @@
     opacity: 1;
   }
 }
+.logout{
+  color: white;
+  padding: 20px;
+  margin-top: 20px;
+  margin-right: 20px;
+  border: 1px solid white;
+  border-radius: 5px;
+  text-decoration: none;
+}
+.logout:hover{
+  color: white;
+  background-color: red;
+}

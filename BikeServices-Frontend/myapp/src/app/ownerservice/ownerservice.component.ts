@@ -17,6 +17,7 @@ import {AuthControllerService} from "../services/services/auth-controller.servic
   styleUrls: ['./ownerservice.component.css']
 })
 export class OwnerserviceComponent implements OnInit {
+
   bikeService: BikeServices[] = [];
   private editService:Servicesdto={
     'charges':0,
@@ -28,7 +29,6 @@ export class OwnerserviceComponent implements OnInit {
   constructor(
     private router: Router,
     private authRequest: OwnerserviceService,
-    private authreq:OwnersControllerService
 
   ) {}
 
@@ -37,10 +37,15 @@ export class OwnerserviceComponent implements OnInit {
 
   }
 
+  logout() {
+    this.authRequest.logout();
+    }
   fetchBikeService() {
    this.authRequest.displayService().subscribe({
-     next:(res)=>
-     console.log(res)
+     next:(res)=>{
+      this.bikeService = res as BikeServices[];
+
+     }
    })
 
   }

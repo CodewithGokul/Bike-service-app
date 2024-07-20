@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {StrictHttpResponse} from "../services/strict-http-response";
 import {Servicesdto} from "../services/models/servicesdto";
 import {BikeServices} from "../services/models/bike-services";
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,9 @@ import {BikeServices} from "../services/models/bike-services";
 export class OwnerserviceService {
 
   private url = "http://localhost:8080/api/owners/delete-service";
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+              private router:Router
+  ) { }
 
   deleteService(id:number):Observable<StrictHttpResponse<string>> {
      const headers:HttpHeaders = new HttpHeaders({'Content-Type': 'text/plain'});
@@ -21,5 +24,11 @@ export class OwnerserviceService {
   displayService(): Observable<BikeServices[]> {
     // const headers:HttpHeaders = new HttpHeaders({'content-type':'text/plain'});
     return this.http.get<BikeServices[]>("http://localhost:8080/api/owners/your-services");
+  }
+
+  logout() {
+
+    localStorage.removeItem("token");
+    this.router.navigate(['/'])
   }
 }

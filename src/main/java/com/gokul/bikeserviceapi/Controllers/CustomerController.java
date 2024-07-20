@@ -1,8 +1,6 @@
 package com.gokul.bikeserviceapi.Controllers;
 
-
 import com.gokul.bikeserviceapi.DTO.Bookingdto;
-import com.gokul.bikeserviceapi.Models.Bookings;
 import com.gokul.bikeserviceapi.Responses.BookingResponse;
 import com.gokul.bikeserviceapi.Responses.CustomerServiceResponse;
 import com.gokul.bikeserviceapi.Services.CustomerServices;
