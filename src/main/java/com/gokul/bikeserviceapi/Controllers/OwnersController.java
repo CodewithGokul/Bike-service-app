@@ -3,7 +3,6 @@ package com.gokul.bikeserviceapi.Controllers;
 
 import com.gokul.bikeserviceapi.DTO.Servicesdto;
 import com.gokul.bikeserviceapi.Models.BikeServices;
-import com.gokul.bikeserviceapi.Models.Store;
 import com.gokul.bikeserviceapi.Responses.BookingResponse;
 import com.gokul.bikeserviceapi.Responses.SetStatus;
 import com.gokul.bikeserviceapi.Services.OwnerServices;
@@ -20,27 +19,19 @@ import java.util.List;
 public class OwnersController {
     private final OwnerServices ownerServices;
 
-    @PostMapping("add-stores")  //Adding Stores of Owner This Is Because Owner Can Have Many Stores
-    public ResponseEntity<List<Store>> addStores(@RequestBody Store store) throws MessagingException {
-        return ResponseEntity.ok(ownerServices.addStore(store));
-    }
 
-    @GetMapping("your-stores") //Displaying Owner's Stores Because To retrieve Store Id For Front-End Purpose
-    public ResponseEntity<List<Store>> getStores() throws MessagingException {
-        return ResponseEntity.ok(ownerServices.displayStores());
+    @PostMapping("add-services")  //Adding Services In  The Store Using Store Id
+    public ResponseEntity<String> addServices(@RequestBody Servicesdto servicesdto) {
+
+        return ResponseEntity.ok(ownerServices.saveServices(servicesdto));
     }
 
 
-    @PostMapping("add-services/{storeId}")  //Adding Services In  The Store Using Store Id
-    public ResponseEntity<String> addServices(@PathVariable Integer storeId, @RequestBody Servicesdto servicesdto) {
-
-        return ResponseEntity.ok("Service Added in " +  ownerServices.saveServices(storeId, servicesdto));
+    @GetMapping("your-services")  //Displaying Services Of Owner Selected Store Id
+    public ResponseEntity<List<BikeServices>> getServices() {
+        System.out.println("Controlled");
+        return ResponseEntity.ok(ownerServices.yourServices());
     }
-
-//    @GetMapping("/your-services/{storeId}")  //Displaying Services Of Owner Selected Store Id
-//    public ResponseEntity<List<BikeServices>> getServices(@PathVariable Integer storeId) {
-//        return ResponseEntity.ok(ownerServices.yourServices(storeId));
-//    }
 
 
     //Below Are Crud Operation Takes Place on Services

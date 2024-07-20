@@ -6,11 +6,9 @@ import com.gokul.bikeserviceapi.Enum.Status;
 import com.gokul.bikeserviceapi.Models.BikeServices;
 import com.gokul.bikeserviceapi.Models.Bookings;
 import com.gokul.bikeserviceapi.Models.Owners;
-import com.gokul.bikeserviceapi.Models.Store;
 import com.gokul.bikeserviceapi.Repository.BookingRepository;
 import com.gokul.bikeserviceapi.Repository.OwnerRepository;
 import com.gokul.bikeserviceapi.Repository.ServicesRepository;
-import com.gokul.bikeserviceapi.Repository.StoreRepository;
 import com.gokul.bikeserviceapi.Responses.BookingResponse;
 import com.gokul.bikeserviceapi.Responses.SetStatus;
 import jakarta.mail.MessagingException;
@@ -24,7 +22,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -32,31 +29,37 @@ public class OwnerServices {
     private final ServicesRepository servicesRepository;
     private final OwnerRepository ownerRepository;
     private final BookingRepository bookingRepository;
-    private final StoreRepository storeRepository;
     static Long ownerId = null;
     private final MailServices mailServices;
 
-    @Transactional
-    public List<BikeServices> yourServices(Integer storeId) {
-        Optional<Store> store = storeRepository.findById(storeId);
-        if (store.isPresent()) {
-            List<BikeServices> service = store.get().getServices();
-            return service;
+
+    public List<BikeServices> yourServices() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+        Optional<UserDetails> owner = ownerRepository.findByEmail(email);
+        if (owner.isPresent()) {
+            Owners owners = (Owners) owner.get();
+            List<BikeServices> services = owners.getServices();
+            return services;
         }
         return null;
     }
 
-    public String saveServices(Integer id, Servicesdto servicesdto) {
+    public String saveServices(Servicesdto servicesdto) {
+        System.out.println(servicesdto.getLocation());
         BikeServices bikeServices = new BikeServices();
         bikeServices.setServiceName(servicesdto.getServicename());
         bikeServices.setDescription(servicesdto.getDescription());
         bikeServices.setCharges(servicesdto.getCharges());
-        Optional<Store> stores = storeRepository.findById(id);
-        if (stores.isPresent()) {
-            Store store = stores.get();
-            bikeServices.setStore(store);
+        bikeServices.setLocation(servicesdto.getLocation());
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+        Optional<UserDetails> user = ownerRepository.findByEmail(username);
+        if (user.isPresent()) {
+            Owners owners = (Owners) user.get();
+            bikeServices.setOwners(owners);
             servicesRepository.save(bikeServices);
-            return store.getStoreName();
+            return "Saved Successfully";
         }
         return null;
     }
@@ -110,7 +113,7 @@ public class OwnerServices {
         for (Bookings booking : bookings) {
             for (BikeServices service : bikeServices) {
                 if (service.getId().equals(booking.getServiceId())) {
-                    if (service.getStore().getOwner().getId().equals(ownerId)) {
+                    if (service.getOwners().getId().equals(ownerId)) {
                         bookingResponse = new BookingResponse();
                         bookingResponse.setBookId(booking.getId());
                         bookingResponse.setBookedDate(booking.getBookedDate());
@@ -118,8 +121,6 @@ public class OwnerServices {
                         bookingResponse.setBrand(booking.getBrand());
                         bookingResponse.setModel(booking.getModel());
                         bookingResponse.setVehicleNumber(booking.getVehicleNumber());
-                        bookingResponse.setStoreName(service.getStore().getStoreName());
-                        bookingResponse.setStoreAddress(service.getStore().getStoreAddress());
                         bookingResponse.setStatus(booking.getStatus());
                         myBookings.add(bookingResponse);
                     }
@@ -163,9 +164,9 @@ public class OwnerServices {
                     String text = "<html>"
                             + "<body>"
                             + "Your order has been accepted!<br>"
-                            + "By " + service.getStore().getStoreName() + ". Please bring your vehicle as soon as possible.<br>"
-                            + "Store Address: " + service.getStore().getStoreAddress() + "<br>"
-                            + "Store Phone Number: " + service.getStore().getStorePhone() + "</body></html>";
+                            + "By " + service.getOwners().getName()+ ". Please bring your vehicle as soon as possible.<br>"
+                            + "Service Address: " + service.getLocation() + "<br>"
+                            + "Store Phone Number: " + service.getOwners().getPhoneNumber() + "</body></html>";
                     mailServices.sendMimeMessage((to), subject, text);
                     return true;
                 }
@@ -175,29 +176,5 @@ public class OwnerServices {
         return false;
     }
 
-    public List<Store> displayStores() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String username = auth.getName();
-        Optional<UserDetails> details = ownerRepository.findByEmail(username);
-        if (details.isPresent()) {
-            Owners owner = (Owners) details.get();
-            List<Store> stores = new ArrayList<>();
-            stores = storeRepository.findByOwner(owner);
-            return stores;
-        }
-        return null;
-    }
 
-    public List<Store> addStore(Store store) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String username = auth.getName();
-        Optional<UserDetails> details = ownerRepository.findByEmail(username);
-        if (details.isPresent()) {
-            Owners owner = (Owners) details.get();
-            store.setOwner(owner);
-            storeRepository.save(store);
-            return storeRepository.findByOwner(owner);
-        }
-        return null;
-    }
 }

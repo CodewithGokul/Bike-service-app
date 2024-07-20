@@ -17,8 +17,11 @@ public class BikeServices {
     private String description;
     @Column(nullable = false)
     private Integer charges;
+    @Column(nullable = false)
+    private String location;
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "service_id")
     @JsonIgnore
-    @JoinColumn(name = "store_id")
-    private Store store;
+    private Owners owners;
+
 }

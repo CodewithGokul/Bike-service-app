@@ -30,7 +30,7 @@ export class LoginComponent {
           console.log("new" + response)
           this.token.token = response.token; // Assuming 'token' is directly accessible in the response
           this.role.setRole('customer');
-          this.router.navigate(['/','service']).then()
+          this.router.navigate(['/', 'service']).then()
         } else {
           console.error('Invalid response format:', response);
         }

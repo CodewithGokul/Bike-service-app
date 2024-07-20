@@ -14,7 +14,5 @@ public class CustomerServiceResponse {
     @Column(nullable = false)
     private Integer charges;
     @Column(nullable = false)
-    private String storeName;
-    @Column(nullable = false)
-    private String storeAddress;
+    private String Location;
 }

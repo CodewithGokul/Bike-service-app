@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Servicesdto} from "../services/models/servicesdto";
 import {CustomerServiceResponse} from "../services/models/customer-service-response";
@@ -19,7 +19,9 @@ export class AllserviceService {
     return this.http.get<any>(this.apiUrl);
   }
   postBooking(id:number|undefined,Booking:Bookingdto){
-    return this.http.post(`http://localhost:8080/api/customers/services/${id}`,Booking)
+    const headers = new HttpHeaders({'Content-Type': 'text/plain'});
+
+    return this.http.post(`http://localhost:8080/api/customers/services/${id}`,Booking,{responseType:"text" as "json"})
   }
 
 }

@@ -61,7 +61,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public CorsFilter corsFilter(){
+    public CorsFilter corsFilter() {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         final CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
@@ -69,14 +69,19 @@ public class SecurityConfig {
         config.setAllowedHeaders(Arrays.asList(
                 HttpHeaders.ORIGIN,
                 HttpHeaders.CONTENT_TYPE,
-                HttpHeaders.AUTHORIZATION,
+                HttpHeaders.ACCEPT,
                 HttpHeaders.AUTHORIZATION
         ));
         config.setAllowedMethods(Arrays.asList(
-                "GET", "POST", "PUT", "DELETE", "PATCH","PUT"
+                "GET",
+                "POST",
+                "PUT",
+                "DELETE",
+                "PATCH"
         ));
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
+
 
 }

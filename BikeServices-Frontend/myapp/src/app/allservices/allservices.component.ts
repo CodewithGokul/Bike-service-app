@@ -18,7 +18,7 @@ export class AllservicesComponent implements OnInit {
   CustomerBooking:Bookingdto = {
     'model':'',
     'brand':'',
-    'year':0,
+    'year':undefined,
     'vehicleNumber':'',
       'date':''
   }

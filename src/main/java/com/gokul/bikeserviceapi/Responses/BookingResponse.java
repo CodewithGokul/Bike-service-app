@@ -19,10 +19,6 @@ public class BookingResponse {
     @Column(nullable = false)
     private String serviceName;
     @Column(nullable = false)
-    private String storeName;
-    @Column(nullable = false)
-    private String storeAddress;
-    @Column(nullable = false)
     private Status status;
     @Column(nullable = false)
     private Date bookedDate;

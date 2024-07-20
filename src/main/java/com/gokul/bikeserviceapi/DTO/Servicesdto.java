@@ -8,5 +8,5 @@ public class Servicesdto {
     private String servicename;
     private String description;
     private Integer charges;
-    private String address;
+    private String location;
 }

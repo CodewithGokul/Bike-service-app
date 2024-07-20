@@ -1,5 +1,6 @@
 package com.gokul.bikeserviceapi.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gokul.bikeserviceapi.Enum.Roles;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -28,8 +29,8 @@ public class Owners implements UserDetails {
     private String password;
     private Date accountCreated;
     private Roles role;
-    @OneToMany(mappedBy = "owner",fetch = FetchType.LAZY)
-    private List<Store> Stores;
+    @OneToMany(mappedBy = "owners",fetch = FetchType.LAZY)
+    private List<BikeServices> services;
 
 
     //The Below Code Belongs To userdetails Implementation Where SpringBoot Use For Validation Purpose

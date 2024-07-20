@@ -9,6 +9,7 @@ import {OwnerserviceService} from "./ownerservice.service";
 import {StrictHttpResponse} from "../services/strict-http-response";
 import {editServices} from "../services/fn/owners-controller/edit-services";
 import {Servicesdto} from "../services/models/servicesdto";
+import {AuthControllerService} from "../services/services/auth-controller.service";
 
 @Component({
   selector: 'app-ownerservice',
@@ -26,42 +27,25 @@ export class OwnerserviceComponent implements OnInit {
    updateService:BikeServices = {};
   constructor(
     private router: Router,
-    private authService: OwnersControllerService,
-    private authRequest: OwnerserviceService
+    private authRequest: OwnerserviceService,
+    private authreq:OwnersControllerService
+
   ) {}
 
   ngOnInit() {
     this.fetchBikeService();
+
   }
 
   fetchBikeService() {
-    this.authService.getServices()
-      .pipe(
-        catchError(error => {
-          console.error('Error fetching bike services:', error);
-          return throwError(error); // Rethrow the error or handle as needed
-        })
-      )
-      .subscribe((blob: Blob|any) => {
-        this.parseBlobData(blob);
-      });
+   this.authRequest.displayService().subscribe({
+     next:(res)=>
+     console.log(res)
+   })
+
   }
 
-  private parseBlobData(blob: Blob) {
-    const reader = new FileReader();
-    reader.addEventListener('loadend', () => {
-      const text = reader.result as string;
-      try {
-        const jsonResponse = JSON.parse(text);
-        this.bikeService = jsonResponse as BikeServices[];
-      } catch (e) {
-        console.error('Error parsing JSON:', e);
-      }
-    });
-    reader.readAsText(blob);
-  }
 
-  protected readonly addServices = addServices;
 
   delete(serviceId:number|any){
     console.log(serviceId)

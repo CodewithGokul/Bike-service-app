@@ -6,7 +6,6 @@ import com.gokul.bikeserviceapi.Enum.Status;
 import com.gokul.bikeserviceapi.Models.BikeServices;
 import com.gokul.bikeserviceapi.Models.Bookings;
 import com.gokul.bikeserviceapi.Models.Customers;
-import com.gokul.bikeserviceapi.Models.Store;
 import com.gokul.bikeserviceapi.Repository.BookingRepository;
 import com.gokul.bikeserviceapi.Repository.CustomerRepository;
 import com.gokul.bikeserviceapi.Repository.ServicesRepository;
@@ -41,17 +40,16 @@ public class CustomerServices {
             customerServiceResponse.setServiceName(service.getServiceName());
             customerServiceResponse.setDescription(service.getDescription());
             customerServiceResponse.setCharges(service.getCharges());
-            customerServiceResponse.setStoreName(service.getStore().getStoreName());
-            customerServiceResponse.setStoreAddress(service.getStore().getStoreAddress());
+            customerServiceResponse.setLocation(service.getLocation());
             services.add(customerServiceResponse);
         });
                 return services;
     }
 
-    public Bookings addBooking(Integer id, Bookingdto bookingdto) throws MessagingException {
+    public String addBooking(Integer id, Bookingdto bookingdto) throws MessagingException {
 
         //The Below Logic Is for Booking By User
-
+        System.out.println(bookingdto);
         Bookings bookings = new Bookings();
 
         bookings.setServiceId(id);
@@ -64,39 +62,40 @@ public class CustomerServices {
         bookings.setBookedDate(new Date());
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
-        Optional<Customers> customers = customerRepository.findByEmail(username);
-
-        Customers customer = customers.get();
-        bookings.setCustomers(customer);
-
+        Customers customer = customerRepository.findByEmail(username).orElseThrow(()-> new RuntimeException(("customer not found")));
+        System.out.println(bookings.getBrand());
+//        bookings.setCustomers(customer);
+        System.out.println(customer);
 
         //The below Logic For Mail Sending To The Owner After Booked By Customer
 
         Optional<BikeServices> bikeServices = servicesRepository.findById(id);
         if (bikeServices.isPresent()) {
-            BikeServices bikes = bikeServices.get();
-            Store store = bikes.getStore();
+            BikeServices services = bikeServices.get();
+
 
             //After Booking Email logic Written Here It Going To use Mail-service class's sendmimemessage method
 
             String subject = "New Booking!!!";
-            String to = store.getOwner().getEmail();
+            String to = services.getOwners().getEmail();
+
+
             String text = "The User " + customer.getUsername() + "<br>" +
-                    "Booked vehicle Service For the " + bikes.getServiceName() + "<br>" +
+                    "Booked vehicle Service For the " + services.getServiceName() + "<br>" +
                     "Customer PhoneNumber: " + customer.getPhoneNumber() + "<br>" +
                     "Customer Vehicle Details:<br>" +
                     "Vehicle Brand: " + bookings.getBrand() + "<br>" +
                     "Vehicle Model: " + bookings.getModel() + "<br>" +
                     "Model Year: " + bookings.getYear() + "<br>" +
-                    "Shop Address: "+ store.getStoreAddress()+ "<br>" +
+                    "Shop Number: "+services.getOwners().getPhoneNumber()+ "<br>" +
                     "Vehicle Number: " + bookings.getVehicleNumber() + "<br>" +
                     "For More Information Check-Out The app";
 
-
             mailServices.sendMimeMessage(to, subject, text);
+            System.out.println("Comes to message");
             bookingRepository.save(bookings);  //Saved In the DB
         }
-        return bookings;
+        return "Booked";
     }
 
     public List<BookingResponse> getBookings() {
@@ -130,8 +129,6 @@ public class CustomerServices {
         bookingResponse.setModel(booking.getModel());
         bookingResponse.setVehicleNumber(booking.getVehicleNumber());
         bookingResponse.setStatus(booking.getStatus());
-        bookingResponse.setStoreAddress(bikes.getStore().getStoreAddress());
-        bookingResponse.setStoreName(bikes.getStore().getStoreName());
         return bookingResponse;
     }
 

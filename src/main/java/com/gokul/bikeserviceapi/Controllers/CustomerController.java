@@ -26,7 +26,7 @@ public class CustomerController {
     }
 
     @PostMapping("/services/{serviceId}") //Booking The Service Using ServiceId
-    public ResponseEntity<Bookings> addBooking(@PathVariable Integer serviceId, @RequestBody Bookingdto bookingdto) throws MessagingException {
+    public ResponseEntity<String> addBooking(@PathVariable Integer serviceId, @RequestBody Bookingdto bookingdto) throws MessagingException {
         return ResponseEntity.ok(customerServices.addBooking(serviceId, bookingdto));
     }
 
