@@ -19,7 +19,7 @@ export class AddservicesComponent {
 
   setService:Servicesdto = {
     'servicename':'',
-    'charges':0,
+    'charges':undefined,
     'description':'',
     'location':''
   }

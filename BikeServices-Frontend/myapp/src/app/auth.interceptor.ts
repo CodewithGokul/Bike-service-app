@@ -6,15 +6,23 @@ import {
   HttpEvent,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
+  constructor(
+    private router:Router
+  ){}
   intercept(
     req: HttpRequest<any>,
-    next: HttpHandler
+    next: HttpHandler,
   ): Observable<HttpEvent<any>> {
+
     // Retrieve the token from localStorage or sessionStorage
     const token = localStorage.getItem('token'); // Or sessionStorage.getItem('token');
+
+
+    
 
     // Check if the request URL contains '/auth/login' to bypass adding token
     if (req.url.includes('http://localhost:8080/api/auth/owner/login')) {
@@ -41,6 +49,10 @@ export class AuthInterceptor implements HttpInterceptor {
           Authorization: `Bearer ${token}`,
         },
       });
+    }
+
+    if(!token){
+      this.router.navigate(['/']);
     }
 
     // Pass the request on to the next handler

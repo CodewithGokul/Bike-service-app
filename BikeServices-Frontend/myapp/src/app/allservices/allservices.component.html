@@ -37,6 +37,7 @@
   <div class="modal-content">
     <span class="close" (click)="closeBook()">&times;</span>
     <h2>Book Service</h2>
+    <div class="form">
     <form (submit)="BookService()">
       <div>
         <label>Brand:</label>
@@ -58,12 +59,13 @@
         <label>Date:</label>
         <input type="date" name="date" [(ngModel)]="CustomerBooking.date" required />
       </div>
-      <div>
+      <div class="pop-up">
         <button type="submit" (click)="enableBooking()" class="btn-book">Submit</button>
       </div>
       <div *ngIf="isbooked">
         Booking...Please wait..
       </div>
     </form>
+  </div>
   </div>
 </div>
