@@ -3,6 +3,7 @@ import {Router} from "@angular/router";
 import {TokenService} from "../token/token.service";
 import {Ownersignupdto} from "../services/models/ownersignupdto";
 import {AuthControllerService} from "../services/services/auth-controller.service";
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
@@ -10,6 +11,7 @@ import {AuthControllerService} from "../services/services/auth-controller.servic
   styleUrl: './register.component.css'
 })
 export class RegisterComponent {
+enableError = false;
 
     constructor(
       private setRegister:AuthControllerService,
@@ -17,30 +19,28 @@ export class RegisterComponent {
       private token:TokenService,
     ) {}
 
-  authRequest:Ownersignupdto = {
-    address:'',
-    email:'',
-    name: '',
-    password:'',
-    phoneNumber:''
-  }
+    signupForm = new FormGroup({
+      name: new FormControl(null,[Validators.required,Validators.pattern("^[a-zA-Z][a-zA-Z0-9_]{4,19}$")]),
+      email:new FormControl(null,[Validators.required,Validators.email]),
+      password:new FormControl(null,[Validators.required,Validators.pattern("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")]),
+      phoneNumber:new FormControl(null,[Validators.required,Validators.pattern("^[789]\\d{9}$")      ]),
+      address:new FormControl(null,[Validators.required])
+    })
+
+
   signup(){
+      if(this.signupForm.valid){
       this.setRegister.setOwnerSignup(
         {
-          body:this.authRequest
+          body:this.signupForm.value as Ownersignupdto
         }).subscribe({
-        next: (res: Blob|any) => {
-            res.text().then((text: string) => {
-                try {
-                  const jsonResponse = JSON.parse(text);
-                  this.token.token = jsonResponse.token as string;
-                  this.router.navigate(['service']);
-                }
-                catch (e){
-                  console.error('Error parsing JSON:', e);
-                }
-            })
+        next: (res) => {
+          alert("Account Created Succesfully")
+           this.router.navigate(['/login'])
         }
       })
+    }
   }
 }
+
+

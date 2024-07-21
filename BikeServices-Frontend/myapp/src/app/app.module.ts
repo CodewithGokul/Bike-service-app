@@ -13,7 +13,7 @@ import {
   withInterceptors,
   withInterceptorsFromDi
 } from "@angular/common/http";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { OwnerserviceComponent } from './ownerservice/ownerservice.component';
 import {AuthInterceptor} from "./auth.interceptor";
 import { AddservicesComponent } from './addservices/addservices.component';
@@ -48,6 +48,7 @@ import { StoreComponent } from './store/store.component';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     provideHttpClient(withInterceptorsFromDi()),

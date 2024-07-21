@@ -38,3 +38,15 @@ button:hover{
   background-color: greenyellow;
   color: black;
 }
+.required{
+  color: red;
+}
+.invalid{
+  border-color: red;
+}
+.valid{
+  border-color: green;
+}
+input:focus {
+  outline: none; 
+}

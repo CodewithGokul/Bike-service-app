@@ -65,7 +65,7 @@ public class CustomerServices {
         Customers customer = customerRepository.findByEmail(username).orElseThrow(()-> new RuntimeException(("customer not found")));
         System.out.println(bookings.getBrand());
        bookings.setCustomers(customer);
-        System.out.println(customer);
+
 
         //The below Logic For Mail Sending To The Owner After Booked By Customer
 
@@ -132,4 +132,9 @@ public class CustomerServices {
         return bookingResponse;
     }
 
+    public String deleteBooking(Long bookid) {
+
+        bookingRepository.deleteById(bookid);
+        return "Deleted Booking";
+    }
 }

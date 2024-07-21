@@ -31,4 +31,5 @@ export class AllserviceService {
       localStorage.removeItem('token')
       this.router.navigate(['/']);
   }
+
 }

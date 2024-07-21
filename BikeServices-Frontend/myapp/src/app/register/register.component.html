@@ -1,31 +1,102 @@
 <div class="container">
-
-  <form>
+  <form [formGroup]="signupForm" (ngSubmit)="signup()">
     <h2>REGISTER</h2>
 
     <div class="name">
-      <input [(ngModel)]="authRequest.name"  name="name" type="text" placeholder="Name" required/>
+      <input
+        formControlName="name"
+        type="text"
+        placeholder="Name"
+        [ngClass]="{
+          invalid: enableError && !signupForm.controls['name'].valid,
+          valid: enableError && signupForm.controls['name'].valid
+        }"
+      />
+      <div
+        class="required"
+        *ngIf="enableError && !signupForm.controls['name'].valid"
+      >
+        Name Should Not<br />
+        Contains Space
+      </div>
     </div>
 
     <div class="mail">
-      <input [(ngModel)]="authRequest.email" name="email" type="email" placeholder="gmail" required/>
+      <input
+        formControlName="email"
+        type="email"
+        placeholder="gmail"
+        [ngClass]="{
+          invalid: enableError && !signupForm.controls['email'].valid,
+          valid: enableError && signupForm.controls['email'].valid
+        }"
+      />
+      <div
+        class="required"
+        *ngIf="enableError && !signupForm.controls['email'].valid"
+      >
+        Valid Email only
+      </div>
     </div>
 
     <div class="password">
-      <input [(ngModel)]="authRequest.password" name="password" type="text" placeholder="password" required/>
+      <input
+        formControlName="password"
+        type="text"
+        placeholder="password"
+        [ngClass]="{
+          invalid: enableError && !signupForm.controls['password'].valid,
+          valid: enableError && signupForm.controls['password'].valid
+        }"
+      />
+      <div
+        class="required"
+        *ngIf="enableError && !signupForm.controls['password'].valid"
+      >
+        At least 12 characters,<br />including uppercase, <br />lowercase,
+        digits,<br />
+        and special characters
+      </div>
     </div>
 
     <div class="number">
-      <input [(ngModel)]="authRequest.phoneNumber" name="number" type="text" placeholder="Phone number" required/>
+      <input
+        formControlName="phoneNumber"
+        type="text"
+        placeholder="Phone number"
+        [ngClass]="{
+          invalid: enableError && !signupForm.controls['phoneNumber'].valid,
+          valid: enableError && signupForm.controls['phoneNumber'].valid
+        }"
+      />
+      <div
+        class="required"
+        *ngIf="enableError && !signupForm.controls['phoneNumber'].valid"
+      >
+        Should Contains
+      </div>
     </div>
 
-    <div  class="address">
-      <input [(ngModel)]="authRequest.address" name="address" type="text" placeholder="Residential address"/>
+    <div class="address">
+      <input
+        formControlName="address"
+        type="text"
+        placeholder="Residential address"
+        [ngClass]="{
+          invalid: enableError && !signupForm.controls['address'].valid,
+          valid: enableError && signupForm.controls['address'].valid
+        }"
+      />
+      <div
+        class="required"
+        *ngIf="enableError && !signupForm.controls['address'].valid"
+      >
+        Required
+      </div>
     </div>
 
     <div class="btn">
-      <button (click)="signup()" type="submit">Submit</button>
+      <button type="submit" (click)="enableError = true">Submit</button>
     </div>
-
   </form>
 </div>

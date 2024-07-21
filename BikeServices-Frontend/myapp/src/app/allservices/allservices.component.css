@@ -162,3 +162,10 @@ form div {
 .card-section{
   padding-left: 10px;
 }
+
+span{
+  color: red;
+}
+.is-invalid{
+  border: red 1px solid;
+}
