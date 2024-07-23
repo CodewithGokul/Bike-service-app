@@ -13,15 +13,16 @@ form{
   flex-direction: column;
   justify-content:space-evenly;
   align-items: center;
-  background-color: rgba(255, 255, 255, 0.72);
+  background-color: #f5f5f5;
   border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 1); 
   border: 1px solid white;
   padding: 10px;
   width: fit-content;
 }
 input{
   padding: 10px;
-  border: 1px solid white;
+  border: 1px solid black;
   border-radius: 5px;
   box-shadow:0 0 1px;
   margin-bottom: 5px;
@@ -38,3 +39,21 @@ button:hover{
   background-color: greenyellow;
   color: black;
 }
+.required{
+  color: red;
+}
+input:focus{
+  outline: none;
+}
+.valid{
+  border:greenyellow 1px solid;
+}
+.invalid{
+  border: red 1px solid;
+}
+/* .login-card {
+  background-color: #F5F5F5; 
+  border-radius: 8px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  padding: 20px;
+} */

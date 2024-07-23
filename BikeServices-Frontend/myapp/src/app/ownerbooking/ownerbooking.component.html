@@ -51,7 +51,7 @@
     </select>
 
     <button (click)="changeStatus()" class="btn btn-success">Save Change</button>
-    <button (click)="ischangeEnabled = false" class="btn btn-success">Cancel</button>
-  <span>Status Changing Pls Wait...</span>
+    <button (click)="ischangeEnabled = false " class="btn btn-success">Cancel</button>
+  <span *ngIf="load">Status Changing Pls Wait...</span>
   </div>
 </div>

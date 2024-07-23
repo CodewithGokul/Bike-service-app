@@ -4,9 +4,6 @@
       <a [routerLink]="['/', 'booking-status']">Booking Status</a>
     </ul>
     <ul>
-      <a [routerLink]="['/', 'allservices']">Services</a>
-    </ul>
-    <ul>
       <a id="logout" (click)="logout()">Logout</a>
     </ul>
   </div>
@@ -14,16 +11,16 @@
   <div class="card-section">
     <div class="card" *ngFor="let service of services">
       <div>
-        <label>Service Name: {{ service.serviceName }}</label>
+        <label><b>Service Name:</b> {{ service.serviceName }}</label>
       </div>
       <div>
-        <label>Service Description: {{ service.description }}</label>
+        <label><b>Service Description: </b>{{ service.description }}</label>
       </div>
       <div>
-        <label>Service Charge: ${{ service.charges }}</label>
+        <label><b>Service Charge:</b> ${{ service.charges }}</label>
       </div>
       <div>
-        <label>Location: {{ service.location }}</label>
+        <label><b>Location: </b>{{ service.location }}</label>
       </div>
       <div class="btn-book-div">
         <button class="btn-book" (click)="setBook(service.serviceId)">
@@ -43,7 +40,7 @@
     <div class="form">
       <form [formGroup]="bookingForm" (ngSubmit)="BookService()">
         <div>
-          <label>Brand:</label>
+          <label class="book-label">Brand:</label>
           <input
             type="text"
             formControlName="brand"
@@ -56,7 +53,7 @@
           >
         </div>
         <div>
-          <label>Model:</label>
+          <label class="book-label">Model:</label>
           <input
             type="text"
             formControlName="model"
@@ -69,7 +66,7 @@
           >
         </div>
         <div>
-          <label>Year:</label>
+          <label class="book-label">Year:</label>
           <input
             type="number"
             formControlName="year"
@@ -82,7 +79,7 @@
           >
         </div>
         <div>
-          <label>Vehicle Number:</label>
+          <label class="book-label">Vehicle Number:</label>
           <input
             type="text"
             formControlName="vehicleNumber"
@@ -97,7 +94,7 @@
           >
         </div>
         <div>
-          <label>Date:</label>
+          <label class="book-label">Date:</label>
           <input
             type="date"
             formControlName="date"

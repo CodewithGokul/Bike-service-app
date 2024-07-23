@@ -1,6 +1,4 @@
 package com.gokul.bikeserviceapi.Services;
-
-
 import com.gokul.bikeserviceapi.DTO.Servicesdto;
 import com.gokul.bikeserviceapi.Enum.Status;
 import com.gokul.bikeserviceapi.Models.BikeServices;
@@ -12,7 +10,6 @@ import com.gokul.bikeserviceapi.Repository.ServicesRepository;
 import com.gokul.bikeserviceapi.Responses.BookingResponse;
 import com.gokul.bikeserviceapi.Responses.SetStatus;
 import jakarta.mail.MessagingException;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -135,11 +132,11 @@ public class OwnerServices {
         if (bookings.isPresent()) {
             Bookings booking = bookings.get();
             booking.setStatus(status.getStatus());
-
+            bookingRepository.save(booking);
             if (booking.getStatus() == Status.NONDELIVERY) {
                 String to = booking.getCustomers().getEmail();
+                System.out.println(to);
                 String subject = "Ready For Delivery!!";
-
                 String text = "<html>"
                         + "<body>"
                         + "Your Delivery of Vehicle Number: " + booking.getVehicleNumber() + "<br>"

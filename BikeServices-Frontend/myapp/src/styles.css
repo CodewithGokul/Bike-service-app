@@ -1,5 +1,7 @@
-body{
+/* main.css */
+
+body {
   font-family: Arial, Helvetica, sans-serif;
-  background-color: rgba(173, 255, 47, 0.86);
   margin: 0;
+  background: radial-gradient(circle, #86C232 0%, #61892f 100%);
 }

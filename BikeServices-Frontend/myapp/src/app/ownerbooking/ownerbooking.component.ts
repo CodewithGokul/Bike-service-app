@@ -13,6 +13,7 @@ export class OwnerbookingComponent implements OnInit {
   Booking: BookingResponse[] = [];
   filteredBookings: BookingResponse[] = [];
   ischangeEnabled: boolean = false;
+  load:boolean = false;
   status: SetStatus['status'];
   selectedBookId: number = 0;
   selectedStatus: string = '';
@@ -30,13 +31,19 @@ export class OwnerbookingComponent implements OnInit {
   }
 
   changeStatus() {
+    this.load = true
     this.books.editStatus(this.selectedBookId, this.status).subscribe({
       next: (response: string) => {
         alert(response);
         this.ischangeEnabled = false; // Hide the change status UI after saving
+        this.load = false;
         this.fetchBooking(); // Refresh the bookings list
-      }
-    });
+      },error(err) {
+          alert("Status Not Change Check Your Internet Connection...");
+          
+      },
+    })
+    
   }
 
   private fetchBooking() {

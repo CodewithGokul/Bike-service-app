@@ -15,6 +15,7 @@ import jakarta.mail.MessagingException;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -62,39 +63,42 @@ public class CustomerServices {
         bookings.setBookedDate(new Date());
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
-        Customers customer = customerRepository.findByEmail(username).orElseThrow(()-> new RuntimeException(("customer not found")));
-        System.out.println(bookings.getBrand());
-       bookings.setCustomers(customer);
+        Optional<Customers> customer = customerRepository.findByEmail(username);
+
+            if (customer.isPresent()) {
+                Customers customers = customer.get();
+                bookings.setCustomers(customers);
 
 
-        //The below Logic For Mail Sending To The Owner After Booked By Customer
+                //The below Logic For Mail Sending To The Owner After Booked By Customer
 
-        Optional<BikeServices> bikeServices = servicesRepository.findById(id);
-        if (bikeServices.isPresent()) {
-            BikeServices services = bikeServices.get();
-
-
-            //After Booking Email logic Written Here It Going To use Mail-service class's sendmimemessage method
-
-            String subject = "New Booking!!!";
-            String to = services.getOwners().getEmail();
+                Optional<BikeServices> bikeServices = servicesRepository.findById(id);
+                if (bikeServices.isPresent()) {
+                    BikeServices services = bikeServices.get();
 
 
-            String text = "The User " + customer.getUsername() + "<br>" +
-                    "Booked vehicle Service For the " + services.getServiceName() + "<br>" +
-                    "Customer PhoneNumber: " + customer.getPhoneNumber() + "<br>" +
-                    "Customer Vehicle Details:<br>" +
-                    "Vehicle Brand: " + bookings.getBrand() + "<br>" +
-                    "Vehicle Model: " + bookings.getModel() + "<br>" +
-                    "Model Year: " + bookings.getYear() + "<br>" +
-                    "Shop Number: "+services.getOwners().getPhoneNumber()+ "<br>" +
-                    "Vehicle Number: " + bookings.getVehicleNumber() + "<br>" +
-                    "For More Information Check-Out The app";
+                    //After Booking Email logic Written Here It Going To use Mail-service class's sendmimemessage method
 
-            mailServices.sendMimeMessage(to, subject, text);
-            System.out.println("Comes to message");
-            bookingRepository.save(bookings);  //Saved In the DB
-        }
+                    String subject = "New Booking!!!";
+                    String to = services.getOwners().getEmail();
+
+
+                    String text = "The User " + customers.getUsername() + "<br>" +
+                            "Booked vehicle Service For the " + services.getServiceName() + "<br>" +
+                            "Customer PhoneNumber: " + customers.getPhoneNumber() + "<br>" +
+                            "Customer Vehicle Details:<br>" +
+                            "Vehicle Brand: " + bookings.getBrand() + "<br>" +
+                            "Vehicle Model: " + bookings.getModel() + "<br>" +
+                            "Model Year: " + bookings.getYear() + "<br>" +
+                            "Shop Number: " + services.getOwners().getPhoneNumber() + "<br>" +
+                            "Vehicle Number: " + bookings.getVehicleNumber() + "<br>" +
+                            "For More Information Check-Out The app";
+
+                    mailServices.sendMimeMessage(to, subject, text);
+                    System.out.println("Comes to message");
+                    bookingRepository.save(bookings);  //Saved In the DB
+                }
+            }
         return "Booked";
     }
 
